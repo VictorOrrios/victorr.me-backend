@@ -13,7 +13,7 @@ export class AppController {
 
   @Get('chat/callback')
   async chat_callback(@Query('code') code:string): Promise<string> {
-    const url = "http://localhost:5173"
+    const url = "https://victorr.me"
     const access_token = await this.appService.getAccessToken(code);
     return `
       <html>
@@ -37,6 +37,7 @@ export class AppController {
       const msms = await this.messagesService.getMessages();
       return msms;
     } catch (err) {
+        console.error ('Log:Error getting all messages', err);
         throw new Error('Error getting all messages', err);
     }
   }
