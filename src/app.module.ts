@@ -23,7 +23,7 @@ import { MessagesModule } from './messages/messages.module';
         password: config.get('DB_PASSWORD'),
         database: config.get('DB_NAME'),
         autoLoadEntities: true,
-        synchronize: true, // True for dev mode
+        synchronize: false, // True for dev mode
       }),
     }),
 

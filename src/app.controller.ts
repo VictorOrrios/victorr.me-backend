@@ -13,16 +13,17 @@ export class AppController {
 
   @Get('chat/callback')
   async chat_callback(@Query('code') code:string): Promise<string> {
+    const url = "http://localhost:5173"
     const access_token = await this.appService.getAccessToken(code);
-    console.log("Access token got:",access_token)
     return `
       <html>
         <body>
-          <p>Redirecting to victorr.me</p>
+          <p>Redirecting to victorr.me, 
+          if you aren't redirected press <a href="${url}">here</a></p>
           <script>
             window.opener.postMessage(
               ${JSON.stringify(access_token)}, 
-              "http://localhost:5173");
+              "${url}");
             window.close();
           </script>
         </body>
@@ -46,6 +47,7 @@ export class AppController {
     @Body('text') text:string
   ) {
     try {
+      if(text.length > 125) throw new Error('Text to long');
       const user = await this.appService.getUser(access_token)
       if(user === null) throw new Error('User not found');
       const msm = await this.messagesService.createMessage({
@@ -55,6 +57,7 @@ export class AppController {
         text
       })
       return {
+        id:msm.id,
         name:msm.name,
         avatar:msm.avatar,
         link:msm.link,
