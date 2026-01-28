@@ -2,7 +2,7 @@ import { Body, Controller, Get, HttpException, HttpStatus, Param, Post, Query } 
 import { AppService } from './app.service';
 import { MessagesService } from './messages/messages.service';
 
-@Controller('api')
+@Controller()
 export class AppController {
   constructor(private readonly appService: AppService, private readonly messagesService: MessagesService) {}
 
